@@ -76,6 +76,3 @@ ints := [][]ints{
 // ints[2] == {9, 3, 3}
 // ints[3] == {2, 1, 7}
 Sort(ints, IndexGetter(2), Ascending)
-
-== More information
-See http://patrickmylund.com/projects/sortutil
