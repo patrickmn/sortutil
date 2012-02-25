@@ -218,7 +218,7 @@ func (s timeDescending) Less(i, j int) bool {
 	return s.Sorter.vals[i].Interface().(time.Time).After(s.Sorter.vals[j].Interface().(time.Time))
 }
 
-// Returns a Sorter for a slice or array which will sort according to the
+// Returns a Sorter for a slice which will sort according to the
 // items retrieved by getter, in the given ordering.
 func New(slice interface{}, getter Getter, ordering Ordering) *Sorter {
 	v := reflect.ValueOf(slice)
@@ -230,8 +230,8 @@ func New(slice interface{}, getter Getter, ordering Ordering) *Sorter {
 	}
 }
 
-// Sort a slice or array using a Getter in the order specified by Ordering.
-// getter may be nil if sorting a slice of a basic type where identifying a
+// Sort a slice using a Getter in the order specified by Ordering. getter
+// may be nil if sorting a slice of a basic type where identifying a
 // parent struct field or slice index isn't necessary, e.g. if sorting an
 // []int, []string or []time.Time. A runtime panic will occur if getter is
 // not applicable to the given data slice, or if the values retrieved by g

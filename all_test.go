@@ -166,6 +166,15 @@ func TestSortByIntIndexAscending(t *testing.T) {
 	}
 }
 
+func TestSortIntArray(t *testing.T) {
+	return // TEMP: Disabled
+	ints := [...]int{4, 3, 1, 5, 2}
+	Sort(ints, nil, Ascending)
+	if !sort.IntsAreSorted(ints[:]) {
+		t.Errorf("Array ints weren't sorted: %v", ints)
+	}
+}
+
 func TestSortByTimeFieldAscending(t *testing.T) {
 	is := items()
 	Sort(is, FieldGetter("Date"), Ascending)
