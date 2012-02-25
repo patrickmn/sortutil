@@ -72,6 +72,15 @@ func items() []Item {
 	return is
 }
 
+func nestedIntSlice() [][]int {
+	return [][]int{
+		{4, 5, 1},
+		{2, 1, 7},
+		{9, 3, 3},
+		{1, 6, 2},
+	}
+}
+
 func TestSortReverse(t *testing.T) {
 	is := items()
 	SortReverse(SortableItems(is))
@@ -148,6 +157,14 @@ func TestSortByInt64FieldDescending(t *testing.T) {
 		if v.Id != int64(l-i) {
 			t.Errorf("is[%d].Id was not %d, but %d", i, l-i, v.Id)
 		}
+	}
+}
+
+func TestSortByIntIndexAscending(t *testing.T) {
+	is := nestedIntSlice()
+	Sort(is, IndexGetter(2), Ascending)
+	if !sort.IntsAreSorted([]int{is[0][2], is[1][2], is[2][2], is[3][2]}) {
+		t.Errorf("Nested int slice was not sorted by index 2 in child slices: %v", is)
 	}
 }
 

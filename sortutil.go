@@ -216,38 +216,38 @@ func (s timeDescending) Less(i, j int) bool {
 	return s.Sorter.vals[i].Interface().(time.Time).After(s.Sorter.vals[j].Interface().(time.Time))
 }
 
-// Returns a Sorter for a slice or array x, with the given Getter g, and
-// ordering o.
-func New(x interface{}, g Getter, o Ordering) *Sorter {
-	v := reflect.ValueOf(x)
+// Returns a Sorter for a slice or array which will sort according to the
+// items retrieved by getter, in the given ordering.
+func New(slice interface{}, getter Getter, ordering Ordering) *Sorter {
+	v := reflect.ValueOf(slice)
 	return &Sorter{
 		T:        v.Index(0).Type(),
 		V:        v,
-		G:        g,
-		Ordering: o,
+		G:        getter,
+		Ordering: ordering,
 	}
 }
 
-// Sort the slice or array x using the Getter g in the order specified by o.
-// g may be nil if sorting a slice of a plain type where identifying a parent
-// struct field or slice index isn't necessary, e.g. if sorting an []int,
-// []string or []time.Time. A runtime panic will occur if g is not applicable
-// to the given data x, or if the values retrieved by g cannot be compared.
-func Sort(x interface{}, g Getter, o Ordering) {
-	New(x, g, o).Sort()
+// Sort a slice or array using a Getter in the order specified by Ordering.
+// getter may be nil if sorting a slice of a basic type where identifying a
+// parent struct field or slice index isn't necessary, e.g. if sorting an
+// []int, []string or []time.Time. A runtime panic will occur if getter is
+// not applicable to the given data slice, or if the values retrieved by g
+// cannot be compared.
+func Sort(slice interface{}, getter Getter, ordering Ordering) {
+	New(slice, getter, ordering).Sort()
 }
 
-// Reverse a type that implements sort.Interface.
+// Reverse a type which implements sort.Interface.
 func Reverse(s sort.Interface) {
 	for i, j := 0, s.Len()-1; i < j; i, j = i+1, j-1 {
 		s.Swap(i, j)
 	}
 }
 
-// Sort the slice or array s using the type's existing sort.Interface, then
-// reverse it. For a slice with a a "normal" sort interface (where Less
-// returns true if i is less than j), this causes the slice to be sorted in
-// descending order.
+// Sort a type using its existing sort.Interface, then reverse it. For a
+// slice with a a "normal" sort interface (where Less returns true if i
+// is less than j), this causes the slice to be sorted in descending order.
 func SortReverse(s sort.Interface) {
 	sort.Sort(s)
 	Reverse(s)

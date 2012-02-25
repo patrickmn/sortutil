@@ -62,5 +62,19 @@ Sort(slice, FieldGetter("Id"), Ascending)
 // slice[2].Name == "bar"
 Sort(slice, FieldGetter("Name"), Descending)
 
+ints := [][]ints{
+        {4, 5, 1},
+        {2, 1, 7},
+        {9, 3, 3},
+        {1, 6, 2},
+}
+
+// Sort the ints by the first number in child slices in ascending
+// order, such that
+// ints[0] == {1, 6, 2}
+// ints[1] == {2, 1, 7}
+// ints[2] == {4, 5, 1}
+// ints[3] == {9, 3, 3}
+
 == More information
 See http://patrickmylund.com/projects/sortutil

@@ -27,16 +27,16 @@ func SimpleGetter() Getter {
 	}
 }
 
-// Returns a Getter which gets fields with name n from a reflect.Value for a
+// Returns a Getter which gets fields with name from a reflect.Value for a
 // slice of a struct type, returning them as a slice of reflect.Value (one
 // Value for each field in each struct.) Can be used with Sort to sort an
 // []Object by e.g. Object.Name or Object.Date. A runtime panic will occur if
 // the specified field isn't exported.
-func FieldGetter(n string) Getter {
+func FieldGetter(name string) Getter {
 	return func(s reflect.Value) []reflect.Value {
 		vals := valueSlice(s.Len())
 		for i := range vals {
-			vals[i] = reflect.Indirect(s.Index(i).FieldByName(n))
+			vals[i] = reflect.Indirect(s.Index(i).FieldByName(name))
 		}
 		return vals
 	}
@@ -49,24 +49,24 @@ func FieldGetter(n string) Getter {
 // used with Sort to sort an []Object by the first field in the struct
 // value of the first field of each Object. A runtime panic will occur if
 // the specified field isn't exported.
-func FieldByIndexGetter(i int) Getter {
+func FieldByIndexGetter(index []int) Getter {
 	return func(s reflect.Value) []reflect.Value {
 		vals := valueSlice(s.Len())
 		for i := range vals {
-			vals[i] = reflect.Indirect(s.Index(i).FieldByIndex([]int{i}))
+			vals[i] = reflect.Indirect(s.Index(i).FieldByIndex(index))
 		}
 		return vals
 	}
 }
 
-// Returns a Getter which gets values with index i from a reflect.Value for a
+// Returns a Getter which gets values with index from a reflect.Value for a
 // slice. Can be used with Sort to sort an [][]int by e.g. the second element
 // in each nested slice.
-func IndexGetter(i int) Getter {
+func IndexGetter(index int) Getter {
 	return func(s reflect.Value) []reflect.Value {
 		vals := valueSlice(s.Len())
 		for i := range vals {
-			vals[i] = reflect.Indirect(s.Index(i).Index(i))
+			vals[i] = reflect.Indirect(s.Index(i).Index(index))
 		}
 		return vals
 	}
