@@ -24,7 +24,7 @@ ints := []int{4, 7, 2, 6}
 // ints[1] == 6
 // ints[2] == 4
 // ints[3] == 2
-Sort(ints, nil, Descending)
+sortutil.Desc(ints)
 
 strings := []string{"ABC", "def", "abc", "GHI"}
 
@@ -33,7 +33,7 @@ strings := []string{"ABC", "def", "abc", "GHI"}
 // strings[1] == "abc"
 // strings[2] == "def"
 // strings[3] == "GHI"
-Sort(strings, nil, CaseInsensitiveAscending)
+sortutil.CiAsc(string)
 
 === Nested sorting
 
@@ -54,13 +54,13 @@ structs := []MyStruct{
 // slice[0].Id == 1
 // slice[1].Id == 2
 // slice[2].Id == 3
-Sort(structs, FieldGetter("Id"), Ascending)
+sortutil.AscByField(structs, "Id")
 
 // Sort the slice by the Name field in descending order, such that
 // slice[0].Name == "foo"
 // slice[1].Name == "baz"
 // slice[2].Name == "bar"
-Sort(structs, FieldGetter("Name"), Descending)
+sortutil.DescByField(structs, "Name")
 
 ints := [][]ints{
         {4, 5, 1},
@@ -75,4 +75,4 @@ ints := [][]ints{
 // ints[1] == {1, 6, 2}
 // ints[2] == {9, 3, 3}
 // ints[3] == {2, 1, 7}
-Sort(ints, IndexGetter(2), Ascending)
+sortutil.AscByIndex(ints, 2)
