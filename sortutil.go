@@ -145,7 +145,7 @@ func (s *Sorter) Len() int {
 // Swaps two indices in the slice being sorted
 func (s *Sorter) Swap(i, j int) {
 	// Updating the structs causes s.vals[i], s.vals[j] to (essentially) be swapped, too.
-	// TODO: Inefficient; update with (future?) reflect.Swap/reflect.SetIndex
+	// TODO: This is inefficient; update with future(?) reflect.Swap/reflect.SetIndex
 	tmp := reflect.New(s.T).Elem()
 	tmp.Set(s.V.Index(i))
 	s.V.Index(i).Set(s.V.Index(j))

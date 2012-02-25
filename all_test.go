@@ -240,16 +240,77 @@ func TestSortPointerType(t *testing.T) {
 	Sort(s, FieldGetter("TimePtr"), Ascending)
 }
 
-func BenchmarkSortStructByInt64(b *testing.B) {
+func BenchmarkSortByInt64(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		is := items()
 		sort.Sort(SortableItems(is))
 	}
 }
 
-func BenchmarkSortReverseStructByInt64(b *testing.B) {
+func BenchmarkSortReverseByInt64(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		is := items()
 		SortReverse(SortableItems(is))
 	}
+}
+
+func benchmarkInts(n int) []int {
+	ints := make([]int, n, n)
+	v := 0
+	for i := 0; i < n; i++ {
+		ints[i] = v
+		v++
+		if v > 10 {
+			v = 0
+		}
+	}
+	return ints
+}
+
+func benchmarkInt64s(n int) []int64 {
+	ints := make([]int64, n, n)
+	v := int64(0)
+	for i := 0; i < n; i++ {
+		ints[i] = v
+		v++
+		if v > 10 {
+			v = 0
+		}
+	}
+	return ints
+}
+
+func BenchmarkSortInts(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInts(b.N)
+	b.StartTimer()
+	sort.Sort(sort.IntSlice(ints))
+}
+
+func BenchmarkAscInts(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInts(b.N)
+	b.StartTimer()
+	Asc(ints)
+}
+
+func BenchmarkDescInts(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInts(b.N)
+	b.StartTimer()
+	Desc(ints)
+}
+
+func BenchmarkAscInt64s(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInt64s(b.N)
+	b.StartTimer()
+	Asc(ints)
+}
+
+func BenchmarkDescInt64s(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInt64s(b.N)
+	b.StartTimer()
+	Desc(ints)
 }
