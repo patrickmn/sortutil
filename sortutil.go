@@ -168,6 +168,8 @@ type floatDescending struct{ *Sorter }
 type timeAscending struct{ *Sorter }
 type timeDescending struct{ *Sorter }
 
+// TODO: Can probably improve performance significantly by making a slice for
+// each possible type, and not calling the String/Int/etc. methods so much.
 func (s stringAscending) Less(i, j int) bool {
 	return s.Sorter.vals[i].String() < s.Sorter.vals[j].String()
 }
