@@ -33,6 +33,7 @@ strings := []string{"ABC", "def", "abc", "GHI"}
 // strings[1] == "abc"
 // strings[2] == "def"
 // strings[3] == "GHI"
+Sort(slice, nil, CaseInsensitiveAscending)
 
 === Nested sorting
 
