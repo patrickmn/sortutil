@@ -10,7 +10,7 @@ import (
 // the sort functions to identify the elements to sort by.
 type Getter func(reflect.Value) []reflect.Value
 
-func reflectSlice(l int) []reflect.Value {
+func valueSlice(l int) []reflect.Value {
 	s := make([]reflect.Value, l, l)
 	return s
 }
@@ -19,7 +19,7 @@ func reflectSlice(l int) []reflect.Value {
 // slice. This is the default Getter used if none is passed to Sort.
 func SimpleGetter() Getter {
 	return func(s reflect.Value) []reflect.Value {
-		vals := reflectSlice(s.Len())
+		vals := valueSlice(s.Len())
 		for i := range vals {
 			vals[i] = reflect.Indirect(s.Index(i))
 		}
@@ -34,7 +34,7 @@ func SimpleGetter() Getter {
 // the specified field isn't exported.
 func FieldGetter(n string) Getter {
 	return func(s reflect.Value) []reflect.Value {
-		vals := reflectSlice(s.Len())
+		vals := valueSlice(s.Len())
 		for i := range vals {
 			vals[i] = reflect.Indirect(s.Index(i).FieldByName(n))
 		}
@@ -51,7 +51,7 @@ func FieldGetter(n string) Getter {
 // the specified field isn't exported.
 func FieldByIndexGetter(i int) Getter {
 	return func(s reflect.Value) []reflect.Value {
-		vals := reflectSlice(s.Len())
+		vals := valueSlice(s.Len())
 		for i := range vals {
 			vals[i] = reflect.Indirect(s.Index(i).FieldByIndex([]int{i}))
 		}
@@ -64,7 +64,7 @@ func FieldByIndexGetter(i int) Getter {
 // in each nested slice.
 func IndexGetter(i int) Getter {
 	return func(s reflect.Value) []reflect.Value {
-		vals := reflectSlice(s.Len())
+		vals := valueSlice(s.Len())
 		for i := range vals {
 			vals[i] = reflect.Indirect(s.Index(i).Index(i))
 		}
