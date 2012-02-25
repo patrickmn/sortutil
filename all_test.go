@@ -86,7 +86,7 @@ func TestSortReverse(t *testing.T) {
 	SortReverse(SortableItems(is))
 	for i, v := range is {
 		if v.Id != int64(i+1) {
-			t.Errorf("is[%d].Id was not %d, but %d", i, i+1, v.Id)
+			t.Errorf("is[%d].Id is not %d, but %d", i, i+1, v.Id)
 		}
 	}
 }
@@ -99,7 +99,7 @@ func TestSortByStringFieldAscending(t *testing.T) {
 	c := names()
 	for i, v := range is {
 		if v.Name != c[i] {
-			t.Errorf("is[%d].Name was not %s, but %s", i, c[i], v.Name)
+			t.Errorf("is[%d].Name is not %s, but %s", i, c[i], v.Name)
 		}
 	}
 }
@@ -111,7 +111,7 @@ func TestSortByStringFieldDescending(t *testing.T) {
 	Reverse(sort.StringSlice(c))
 	for i, v := range is {
 		if v.Name != c[i] {
-			t.Errorf("is[%d].Name was not %s, but %s", i, c[i], v.Name)
+			t.Errorf("is[%d].Name is not %s, but %s", i, c[i], v.Name)
 		}
 	}
 }
@@ -122,7 +122,7 @@ func TestSortByStringFieldCaseInsensitiveAscending(t *testing.T) {
 	c := namesInsensitive()
 	for i, v := range is {
 		if v.Name != c[i] {
-			t.Errorf("is[%d].Name was not %s, but %s", i, c[i], v.Name)
+			t.Errorf("is[%d].Name is not %s, but %s", i, c[i], v.Name)
 		}
 	}
 }
@@ -134,7 +134,7 @@ func TestSortByStringFieldCaseInsensitiveDescending(t *testing.T) {
 	Reverse(sort.StringSlice(c))
 	for i, v := range is {
 		if v.Name != c[i] {
-			t.Errorf("is[%d].Name was not %s, but %s", i, c[i], v.Name)
+			t.Errorf("is[%d].Name is not %s, but %s", i, c[i], v.Name)
 		}
 	}
 }
@@ -144,7 +144,7 @@ func TestSortByInt64FieldAscending(t *testing.T) {
 	Sort(is, FieldGetter("Id"), Ascending)
 	for i, v := range is {
 		if v.Id != int64(i+1) {
-			t.Errorf("is[%d].Id was not %d, but %d", i, i+1, v.Id)
+			t.Errorf("is[%d].Id is not %d, but %d", i, i+1, v.Id)
 		}
 	}
 }
@@ -155,7 +155,7 @@ func TestSortByInt64FieldDescending(t *testing.T) {
 	l := len(is)
 	for i, v := range is {
 		if v.Id != int64(l-i) {
-			t.Errorf("is[%d].Id was not %d, but %d", i, l-i, v.Id)
+			t.Errorf("is[%d].Id is not %d, but %d", i, l-i, v.Id)
 		}
 	}
 }
@@ -164,7 +164,7 @@ func TestSortByIntIndexAscending(t *testing.T) {
 	is := nestedIntSlice()
 	Sort(is, IndexGetter(2), Ascending)
 	if !sort.IntsAreSorted([]int{is[0][2], is[1][2], is[2][2], is[3][2]}) {
-		t.Errorf("Nested int slice was not sorted by index 2 in child slices: %v", is)
+		t.Errorf("Nested int slice is not sorted by index 2 in child slices: %v", is)
 	}
 }
 
@@ -174,7 +174,7 @@ func TestSortByTimeFieldAscending(t *testing.T) {
 	c := dates()
 	for i, v := range is {
 		if !v.Date.Equal(c[i]) {
-			t.Errorf("is[%d].Date was not %v, but %v", i, c[i], v.Date)
+			t.Errorf("is[%d].Date is not %v, but %v", i, c[i], v.Date)
 		}
 	}
 }
@@ -186,7 +186,7 @@ func TestSortByTimeFieldDescending(t *testing.T) {
 	l := len(is)
 	for i, v := range is {
 		if !v.Date.Equal(c[l-i-1]) {
-			t.Errorf("is[%d].Date was not %v, but %v", i, c[l-i], v.Date)
+			t.Errorf("is[%d].Date is not %v, but %v", i, c[l-i], v.Date)
 		}
 	}
 }
