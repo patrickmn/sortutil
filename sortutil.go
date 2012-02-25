@@ -238,6 +238,100 @@ func Sort(slice interface{}, getter Getter, ordering Ordering) {
 	New(slice, getter, ordering).Sort()
 }
 
+// Sort a slice in ascending order.
+func Asc(slice interface{}) {
+	New(slice, nil, Ascending).Sort()
+}
+
+// Sort a slice in descending order.
+func Desc(slice interface{}) {
+	New(slice, nil, Descending).Sort()
+}
+
+// Sort a slice in case-insensitive ascending order.
+func CiAsc(slice interface{}) {
+	New(slice, nil, CaseInsensitiveAscending).Sort()
+}
+
+// Sort a slice in case-insensitive descending order.
+func CiDesc(slice interface{}) {
+	New(slice, nil, CaseInsensitiveDescending).Sort()
+}
+
+// Sort a slice in ascending order by a field name.
+func AscByField(slice interface{}, name string) {
+	New(slice, FieldGetter(name), Ascending).Sort()
+}
+
+// Sort a slice in descending order by a field name.
+func DescByField(slice interface{}, name string) {
+	New(slice, FieldGetter(name), Descending).Sort()
+}
+
+// Sort a slice in case-insensitive ascending order by a field name.
+// (Valid for string types.)
+func CiAscByField(slice interface{}, name string) {
+	New(slice, FieldGetter(name), CaseInsensitiveAscending).Sort()
+}
+
+// Sort a slice in case-insensitive descending order by a field name.
+// (Valid for string types.)
+func CiDescByField(slice interface{}, name string) {
+	New(slice, FieldGetter(name), CaseInsensitiveDescending).Sort()
+}
+
+// Sort a slice in ascending order by a list of nested field indices, e.g. 1, 2,
+// 3 to sort by the third field from the struct in the second field of the struct
+// in the first field of each struct in the slice.
+func AscByFieldIndex(slice interface{}, index []int) {
+	New(slice, FieldByIndexGetter(index), Ascending).Sort()
+}
+
+// Sort a slice in descending order by a list of nested field indices, e.g. 1, 2,
+// 3 to sort by the third field from the struct in the second field of the struct
+// in the first field of each struct in the slice.
+func DescByFieldIndex(slice interface{}, index []int) {
+	New(slice, FieldByIndexGetter(index), Descending).Sort()
+}
+
+// Sort a slice in case-insensitive ascending order by a list of nested field
+// indices, e.g. 1, 2, 3 to sort by the third field from the struct in the
+// second field of the struct in the first field of each struct in the slice.
+// (Valid for string types.)
+func CiAscByFieldIndex(slice interface{}, index []int) {
+	New(slice, FieldByIndexGetter(index), CaseInsensitiveAscending).Sort()
+}
+
+// Sort a slice in case-insensitive descending order by a list of nested field
+// indices, e.g. 1, 2, 3 to sort by the third field from the struct in the
+// second field of the struct in the first field of each struct in the slice.
+// (Valid for string types.)
+func CiDescByFieldIndex(slice interface{}, index []int) {
+	New(slice, FieldByIndexGetter(index), CaseInsensitiveDescending).Sort()
+}
+
+// Sort a slice in ascending order by an index in a child slice.
+func AscByIndex(slice interface{}, index int) {
+	New(slice, IndexGetter(index), Ascending).Sort()
+}
+
+// Sort a slice in descending order by an index in a child slice.
+func DescByIndex(slice interface{}, index int) {
+	New(slice, IndexGetter(index), Descending).Sort()
+}
+
+// Sort a slice in case-insensitive ascending order by an index in a child
+// slice. (Valid for string types.)
+func CiAscByIndex(slice interface{}, index int) {
+	New(slice, IndexGetter(index), CaseInsensitiveAscending).Sort()
+}
+
+// Sort a slice in case-insensitive descending order by an index in a child
+// slice. (Valid for string types.)
+func CiDescByIndex(slice interface{}, index int) {
+	New(slice, IndexGetter(index), CaseInsensitiveDescending).Sort()
+}
+
 // Reverse a type which implements sort.Interface.
 func Reverse(s sort.Interface) {
 	for i, j := 0, s.Len()-1; i < j; i, j = i+1, j-1 {
