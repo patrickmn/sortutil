@@ -161,4 +161,4 @@ embeds the main struct and doing sort.Sort(ByName{MyStruct}) should be
 considered when high performance is required.
 
 See go/src/pkg/sort/example_interface_test.go and
-go/src/pkg/sort/example/reverse_test.go for examples.
+go/src/pkg/sort/example_reverse_test.go for examples.
