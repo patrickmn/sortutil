@@ -44,8 +44,8 @@ now := time.Now()
 day := 24*time.Hour
 slice := []MyStruct{
         {3, "foo", now.Add(1*day)},
-        {1, "bar", now.Add(-1*day)}
-        {2, "baz", now}
+        {1, "bar", now.Add(-1*day)},
+        {2, "baz", now},
 }
 
 // Sort the slice by the Id field in ascending order, such that
