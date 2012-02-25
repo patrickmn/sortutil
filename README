@@ -79,14 +79,6 @@ func DescByIndex(slice interface{}, index int)
 func Reverse(s sort.Interface)
     Reverse a type which implements sort.Interface.
 
-func Sort(slice interface{}, getter Getter, ordering Ordering)
-    Sort a slice or array using a Getter in the order specified by Ordering.
-    getter may be nil if sorting a slice of a basic type where identifying a
-    parent struct field or slice index isn't necessary, e.g. if sorting an
-    []int, []string or []time.Time. A runtime panic will occur if getter is
-    not applicable to the given data slice, or if the values retrieved by g
-    cannot be compared.
-
 func SortReverse(s sort.Interface)
     Sort a type using its existing sort.Interface, then reverse it. For a
     slice with a a "normal" sort interface (where Less returns true if i is
