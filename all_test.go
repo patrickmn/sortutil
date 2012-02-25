@@ -91,8 +91,6 @@ func TestSortReverse(t *testing.T) {
 	}
 }
 
-// func TestSortNoGetterReverse(t *testing.T) {
-
 func TestSortByStringFieldAscending(t *testing.T) {
 	is := items()
 	Sort(is, FieldGetter("Name"), Ascending)
