@@ -1,6 +1,7 @@
 package sortutil
 
 import (
+	"reflect"
 	"sort"
 	"testing"
 	"time"
@@ -81,9 +82,9 @@ func nestedIntSlice() [][]int {
 	}
 }
 
-func TestSortReverse(t *testing.T) {
+func TestSortReverseInterface(t *testing.T) {
 	is := items()
-	SortReverse(SortableItems(is))
+	SortReverseInterface(SortableItems(is))
 	for i, v := range is {
 		if v.Id != int64(i+1) {
 			t.Errorf("is[%d].Id is not %d, but %d", i, i+1, v.Id)
@@ -106,7 +107,7 @@ func TestSortByStringFieldDescending(t *testing.T) {
 	is := items()
 	Sort(is, FieldGetter("Name"), Descending)
 	c := names()
-	Reverse(sort.StringSlice(c))
+	ReverseInterface(sort.StringSlice(c))
 	for i, v := range is {
 		if v.Name != c[i] {
 			t.Errorf("is[%d].Name is not %s, but %s", i, c[i], v.Name)
@@ -129,7 +130,7 @@ func TestSortByStringFieldCaseInsensitiveDescending(t *testing.T) {
 	is := items()
 	Sort(is, FieldGetter("Name"), CaseInsensitiveDescending)
 	c := namesInsensitive()
-	Reverse(sort.StringSlice(c))
+	ReverseInterface(sort.StringSlice(c))
 	for i, v := range is {
 		if v.Name != c[i] {
 			t.Errorf("is[%d].Name is not %s, but %s", i, c[i], v.Name)
@@ -249,6 +250,15 @@ func TestSortPointerType(t *testing.T) {
 	Sort(s, FieldGetter("TimePtr"), Ascending)
 }
 
+func TestReverse(t *testing.T) {
+	ints := []int{4, 2, 6, 4, 8}
+	correct := []int{8, 4, 6, 2, 4}
+	Reverse(ints)
+	if !reflect.DeepEqual(ints, correct) {
+		t.Errorf("Reversed slice was not %v: %v", correct, ints)
+	}
+}
+
 func BenchmarkSortByInt64(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		is := items()
@@ -259,7 +269,7 @@ func BenchmarkSortByInt64(b *testing.B) {
 func BenchmarkSortReverseByInt64(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		is := items()
-		SortReverse(SortableItems(is))
+		SortReverseInterface(SortableItems(is))
 	}
 }
 

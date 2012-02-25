@@ -167,6 +167,7 @@ type floatAscending struct{ *Sorter }
 type floatDescending struct{ *Sorter }
 type timeAscending struct{ *Sorter }
 type timeDescending struct{ *Sorter }
+type reverser struct{ *Sorter }
 
 // TODO: Can probably improve performance significantly by making a slice for
 // each possible type, and not calling the String/Int/etc. methods so much.
@@ -216,6 +217,15 @@ func (s timeAscending) Less(i, j int) bool {
 
 func (s timeDescending) Less(i, j int) bool {
 	return s.Sorter.vals[i].Interface().(time.Time).After(s.Sorter.vals[j].Interface().(time.Time))
+}
+
+func (s reverser) Len() int {
+	return s.Sorter.V.Len()
+}
+
+// Unused--only to satisfy sort.Interface
+func (s reverser) Less(i, j int) bool {
+	return i < j
 }
 
 // Returns a Sorter for a slice which will sort according to the
@@ -334,8 +344,14 @@ func CiDescByIndex(slice interface{}, index int) {
 	New(slice, IndexGetter(index), CaseInsensitiveDescending).Sort()
 }
 
+// Reverse a slice.
+func Reverse(slice interface{}) {
+	s := New(slice, nil, 0)
+	ReverseInterface(reverser{s})
+}
+
 // Reverse a type which implements sort.Interface.
-func Reverse(s sort.Interface) {
+func ReverseInterface(s sort.Interface) {
 	for i, j := 0, s.Len()-1; i < j; i, j = i+1, j-1 {
 		s.Swap(i, j)
 	}
@@ -344,7 +360,7 @@ func Reverse(s sort.Interface) {
 // Sort a type using its existing sort.Interface, then reverse it. For a
 // slice with a a "normal" sort interface (where Less returns true if i
 // is less than j), this causes the slice to be sorted in descending order.
-func SortReverse(s sort.Interface) {
+func SortReverseInterface(s sort.Interface) {
 	sort.Sort(s)
-	Reverse(s)
+	ReverseInterface(s)
 }
