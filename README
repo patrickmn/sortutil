@@ -4,7 +4,8 @@ descending (for slices of strings.)
 
 Additionally, Sortutil lets you sort a slice of a custom struct by a given
 struct field or index--for example, you can sort a []MyStruct by the structs'
-"Name" fields, or a [][]int by the second index of each nested slice.
+"Name" fields, or a [][]int by the second index of each nested slice, similarly
+to using sorted with operator.ItemGetter/AttrGetter in Python.
 
 == Installation
 go get github.com/pmylund/sortutil
