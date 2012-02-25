@@ -69,12 +69,13 @@ ints := [][]ints{
         {1, 6, 2},
 }
 
-// Sort the ints by the first number in child slices in ascending
+// Sort the ints by the last number in child slices in ascending
 // order, such that
-// ints[0] == {1, 6, 2}
-// ints[1] == {2, 1, 7}
-// ints[2] == {4, 5, 1}
-// ints[3] == {9, 3, 3}
+// ints[0] == {4, 5, 1}
+// ints[1] == {1, 6, 2}
+// ints[2] == {9, 3, 3}
+// ints[3] == {2, 1, 7}
+Sort(ints, IndexGetter(2), Ascending)
 
 == More information
 See http://patrickmylund.com/projects/sortutil
