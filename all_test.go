@@ -323,3 +323,25 @@ func BenchmarkDescInt64s(b *testing.B) {
 	b.StartTimer()
 	Desc(ints)
 }
+
+func benchmarkItems(l int) []Item {
+	is := make([]Item, l, l)
+	n := names()
+	d := dates()
+	v := 0
+	for i := range is {
+		is[i] = Item{int64(v), n[v], d[v], true}
+		v++
+		if v > 5 {
+			v = 0
+		}
+	}
+	return is
+}
+
+func BenchmarkAscByInt64(b *testing.B) {
+	b.StopTimer()
+	is := benchmarkItems(b.N)
+	b.StartTimer()
+	AscByField(is, "Id")
+}
