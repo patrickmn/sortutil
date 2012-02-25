@@ -53,9 +53,9 @@ type Sorter struct {
 	valType  reflect.Type
 }
 
-// Sort the values in s.V by retrieving comparison items using s.G(s.V). A
-// runtime panic will occur if g is not applicable to the given data x, or if
-// the values retrieved by g cannot be compared.
+// Sort the values in V by retrieving comparison items using G(V). A
+// runtime panic will occur if G is not applicable to V, or if the values
+// retrieved by G can't be compared.
 func (s *Sorter) Sort() {
 	if s.G == nil {
 		s.G = SimpleGetter()
