@@ -76,6 +76,8 @@ func DescByFieldIndex(slice interface{}, index []int)
 func DescByIndex(slice interface{}, index int)
     Sort a slice in descending order by an index in a child slice.
 
+=== Utility functions for types that already implement sort.Interface
+
 func Reverse(s sort.Interface)
     Reverse a type which implements sort.Interface.
 
