@@ -13,6 +13,85 @@ go get github.com/pmylund/sortutil
 == Documentation
 go doc github.com/pmylund/sortutil
 
+== Functions
+func Asc(slice interface{})
+    Sort a slice in ascending order.
+
+func AscByField(slice interface{}, name string)
+    Sort a slice in ascending order by a field name.
+
+func AscByFieldIndex(slice interface{}, index []int)
+    Sort a slice in ascending order by a list of nested field indices, e.g.
+    1, 2, 3 to sort by the third field from the struct in the second field
+    of the struct in the first field of each struct in the slice.
+
+func AscByIndex(slice interface{}, index int)
+    Sort a slice in ascending order by an index in a child slice.
+
+func CiAsc(slice interface{})
+    Sort a slice in case-insensitive ascending order.
+
+func CiAscByField(slice interface{}, name string)
+    Sort a slice in case-insensitive ascending order by a field name. (Valid
+    for string types.)
+
+func CiAscByFieldIndex(slice interface{}, index []int)
+    Sort a slice in case-insensitive ascending order by a list of nested
+    field indices, e.g. 1, 2, 3 to sort by the third field from the struct
+    in the second field of the struct in the first field of each struct in
+    the slice. (Valid for string types.)
+
+func CiAscByIndex(slice interface{}, index int)
+    Sort a slice in case-insensitive ascending order by an index in a child
+    slice. (Valid for string types.)
+
+func CiDesc(slice interface{})
+    Sort a slice in case-insensitive descending order.
+
+func CiDescByField(slice interface{}, name string)
+    Sort a slice in case-insensitive descending order by a field name.
+    (Valid for string types.)
+
+func CiDescByFieldIndex(slice interface{}, index []int)
+    Sort a slice in case-insensitive descending order by a list of nested
+    field indices, e.g. 1, 2, 3 to sort by the third field from the struct
+    in the second field of the struct in the first field of each struct in
+    the slice. (Valid for string types.)
+
+func CiDescByIndex(slice interface{}, index int)
+    Sort a slice in case-insensitive descending order by an index in a child
+    slice. (Valid for string types.)
+
+func Desc(slice interface{})
+    Sort a slice in descending order.
+
+func DescByField(slice interface{}, name string)
+    Sort a slice in descending order by a field name.
+
+func DescByFieldIndex(slice interface{}, index []int)
+    Sort a slice in descending order by a list of nested field indices, e.g.
+    1, 2, 3 to sort by the third field from the struct in the second field
+    of the struct in the first field of each struct in the slice.
+
+func DescByIndex(slice interface{}, index int)
+    Sort a slice in descending order by an index in a child slice.
+
+func Reverse(s sort.Interface)
+    Reverse a type which implements sort.Interface.
+
+func Sort(slice interface{}, getter Getter, ordering Ordering)
+    Sort a slice or array using a Getter in the order specified by Ordering.
+    getter may be nil if sorting a slice of a basic type where identifying a
+    parent struct field or slice index isn't necessary, e.g. if sorting an
+    []int, []string or []time.Time. A runtime panic will occur if getter is
+    not applicable to the given data slice, or if the values retrieved by g
+    cannot be compared.
+
+func SortReverse(s sort.Interface)
+    Sort a type using its existing sort.Interface, then reverse it. For a
+    slice with a a "normal" sort interface (where Less returns true if i is
+    less than j), this causes the slice to be sorted in descending order.
+
 == Examples
 
 === Normal sorting
