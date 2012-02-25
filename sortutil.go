@@ -54,7 +54,7 @@ type Sorter struct {
 }
 
 // Sort the values in s.V by retrieving comparison items using s.G(s.V). A
-// runtime panic will occur if g is not applicable the given data x, or if
+// runtime panic will occur if g is not applicable to the given data x, or if
 // the values retrieved by g cannot be compared.
 func (s *Sorter) Sort() {
 	if s.G == nil {
