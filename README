@@ -1,6 +1,6 @@
-Sortutil lets you sort an array or slice without implementing a sort.Interface,
-and in various orders: ascending, descending, or case-insensitive ascending or
-descending (for slices of strings.)
+Sortutil is a Go library which lets you sort an array or slice without
+implementing a sort.Interface, and in various orders: ascending, descending,
+or case-insensitive ascending or descending (for slices of strings.)
 
 Additionally, Sortutil lets you sort a slice of a custom struct by a given
 struct field or index--for example, you can sort a []MyStruct by the structs'
