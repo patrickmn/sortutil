@@ -24,7 +24,7 @@ ints := []int{4, 7, 2, 6}
 // ints[1] == 6
 // ints[2] == 4
 // ints[3] == 2
-Sort(slice, nil, Descending)
+Sort(ints, nil, Descending)
 
 strings := []string{"ABC", "def", "abc", "GHI"}
 
@@ -33,7 +33,7 @@ strings := []string{"ABC", "def", "abc", "GHI"}
 // strings[1] == "abc"
 // strings[2] == "def"
 // strings[3] == "GHI"
-Sort(slice, nil, CaseInsensitiveAscending)
+Sort(strings, nil, CaseInsensitiveAscending)
 
 === Nested sorting
 
@@ -44,7 +44,7 @@ type MyStruct struct {
 }
 now := time.Now()
 day := 24*time.Hour
-slice := []MyStruct{
+structs := []MyStruct{
         {3, "foo", now.Add(1*day)},
         {1, "bar", now.Add(-1*day)},
         {2, "baz", now},
@@ -54,13 +54,13 @@ slice := []MyStruct{
 // slice[0].Id == 1
 // slice[1].Id == 2
 // slice[2].Id == 3
-Sort(slice, FieldGetter("Id"), Ascending)
+Sort(structs, FieldGetter("Id"), Ascending)
 
 // Sort the slice by the Name field in descending order, such that
 // slice[0].Name == "foo"
 // slice[1].Name == "baz"
 // slice[2].Name == "bar"
-Sort(slice, FieldGetter("Name"), Descending)
+Sort(structs, FieldGetter("Name"), Descending)
 
 ints := [][]ints{
         {4, 5, 1},
