@@ -81,7 +81,7 @@ func Reverse(s sort.Interface)
 
 func SortReverse(s sort.Interface)
     Sort a type using its existing sort.Interface, then reverse it. For a
-    slice with a a "normal" sort interface (where Less returns true if i is
+    slice with a "normal" sort interface (where Less returns true if i is
     less than j), this causes the slice to be sorted in descending order.
 
 == Examples
