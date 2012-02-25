@@ -147,3 +147,12 @@ ints := [][]ints{
 // ints[2] == {9, 3, 3}
 // ints[3] == {2, 1, 7}
 sortutil.AscByIndex(ints, 2)
+
+== Performance
+While sortutil is convenient, it won't beat a dedicated sort.Interface in
+terms of performance. Implementing sort.Interface for a struct ByName which
+embeds the main struct and doing sort.Sort(ByName{MyStruct}) should be
+considered if high performance is required.
+
+See go/src/pkg/sort/example_interface_test.go and
+go/src/pkg/sort/example/reverse_test.go for examples.
