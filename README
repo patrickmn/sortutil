@@ -22,7 +22,7 @@ func AscByField(slice interface{}, name string)
 
 func AscByFieldIndex(slice interface{}, index []int)
     Sort a slice in ascending order by a list of nested field indices, e.g.
-    1, 2, 3 to sort by the third field from the struct in the second field
+    {1, 2, 3} to sort by the third field from the struct in the second field
     of the struct in the first field of each struct in the slice.
 
 func AscByIndex(slice interface{}, index int)
@@ -37,7 +37,7 @@ func CiAscByField(slice interface{}, name string)
 
 func CiAscByFieldIndex(slice interface{}, index []int)
     Sort a slice in case-insensitive ascending order by a list of nested
-    field indices, e.g. 1, 2, 3 to sort by the third field from the struct
+    field indices, e.g. {1, 2, 3} to sort by the third field from the struct
     in the second field of the struct in the first field of each struct in
     the slice. (Valid for string types.)
 
@@ -54,7 +54,7 @@ func CiDescByField(slice interface{}, name string)
 
 func CiDescByFieldIndex(slice interface{}, index []int)
     Sort a slice in case-insensitive descending order by a list of nested
-    field indices, e.g. 1, 2, 3 to sort by the third field from the struct
+    field indices, e.g. {1, 2, 3} to sort by the third field from the struct
     in the second field of the struct in the first field of each struct in
     the slice. (Valid for string types.)
 
@@ -70,7 +70,7 @@ func DescByField(slice interface{}, name string)
 
 func DescByFieldIndex(slice interface{}, index []int)
     Sort a slice in descending order by a list of nested field indices, e.g.
-    1, 2, 3 to sort by the third field from the struct in the second field
+    {1, 2, 3} to sort by the third field from the struct in the second field
     of the struct in the first field of each struct in the slice.
 
 func DescByIndex(slice interface{}, index int)
