@@ -127,6 +127,12 @@ structs := []MyStruct{
 // structs[2].Id == 3
 sortutil.AscByField(structs, "Id")
 
+// Sort the slice by the Date field in ascending order, such that
+// structs[0].Date == yesterday
+// structs[1].Date == now
+// structs[2].Date == tomorrow
+sortutil.AscByField(structs, "Date")
+
 // Sort the slice by the Name field in descending order, such that
 // structs[0].Name == "foo"
 // structs[1].Name == "baz"
