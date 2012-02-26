@@ -52,6 +52,12 @@ func (s SortablePointers) Less(i, j int) bool {
 	return s[i].Id > s[j].Id
 }
 
+type PointersByDate struct { SortablePointers }
+
+func (s PointersByDate) Less(i, j int) bool {
+	return s.SortablePointers[i].Date.Before(s.SortablePointers[i].Date)
+}
+
 func names() []string {
 	return []string{"A", "C", "a", "b", "d", "g", "h", "y", "z"}
 }
@@ -317,33 +323,6 @@ func TestReverse(t *testing.T) {
 	}
 }
 
-func BenchmarkSortByInt64(b *testing.B) {
-	var is []Item
-	b.StopTimer()
-	for i := 0; i < b.N; i++ {
-		is = append(is, items()...)
-	}
-	b.StartTimer()
-	sort.Sort(SortableItems(is))
-}
-
-func BenchmarkSortPointersByInt64(b *testing.B) {
-	var is []*Item
-	b.StopTimer()
-	for i := 0; i < b.N; i++ {
-		is = append(is, pointers()...)
-	}
-	b.StartTimer()
-	sort.Sort(SortablePointers(is))
-}
-
-func BenchmarkSortReverseByInt64(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		is := items()
-		SortReverseInterface(SortableItems(is))
-	}
-}
-
 func benchmarkInts(n int) []int {
 	ints := make([]int, n, n)
 	v := 0
@@ -368,41 +347,6 @@ func benchmarkInt64s(n int) []int64 {
 		}
 	}
 	return ints
-}
-
-func BenchmarkSortInts(b *testing.B) {
-	b.StopTimer()
-	ints := benchmarkInts(b.N)
-	b.StartTimer()
-	sort.Sort(sort.IntSlice(ints))
-}
-
-func BenchmarkAscInts(b *testing.B) {
-	b.StopTimer()
-	ints := benchmarkInts(b.N)
-	b.StartTimer()
-	Asc(ints)
-}
-
-func BenchmarkDescInts(b *testing.B) {
-	b.StopTimer()
-	ints := benchmarkInts(b.N)
-	b.StartTimer()
-	Desc(ints)
-}
-
-func BenchmarkAscInt64s(b *testing.B) {
-	b.StopTimer()
-	ints := benchmarkInt64s(b.N)
-	b.StartTimer()
-	Asc(ints)
-}
-
-func BenchmarkDescInt64s(b *testing.B) {
-	b.StopTimer()
-	ints := benchmarkInt64s(b.N)
-	b.StartTimer()
-	Desc(ints)
 }
 
 func benchmarkItems(l int) []Item {
@@ -435,6 +379,82 @@ func benchmarkPointers(l int) []*Item {
 	return is
 }
 
+func BenchmarkSortByInt64(b *testing.B) {
+	var is []Item
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		is = append(is, items()...)
+	}
+	b.StartTimer()
+	sort.Sort(SortableItems(is))
+}
+
+func BenchmarkSortPointersByInt64(b *testing.B) {
+	var is []*Item
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		is = append(is, pointers()...)
+	}
+	b.StartTimer()
+	sort.Sort(SortablePointers(is))
+}
+
+func BenchmarkSortReverseByInt64(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		is := items()
+		SortReverseInterface(SortableItems(is))
+	}
+}
+
+func BenchmarkSortInts(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInts(b.N)
+	b.StartTimer()
+	sort.Sort(sort.IntSlice(ints))
+}
+
+func BenchmarkSortByTime(b *testing.B) {
+	b.StopTimer()
+	is := benchmarkItems(b.N)
+	b.StartTimer()
+	sort.Sort(ByDate{SortableItems(is)})
+}
+
+func BenchmarkSortPointersByTime(b *testing.B) {
+	b.StopTimer()
+	is := benchmarkPointers(b.N)
+	b.StartTimer()
+	sort.Sort(PointersByDate{SortablePointers(is)})
+}
+
+func BenchmarkAscInts(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInts(b.N)
+	b.StartTimer()
+	Asc(ints)
+}
+
+func BenchmarkDescInts(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInts(b.N)
+	b.StartTimer()
+	Desc(ints)
+}
+
+func BenchmarkAscInt64s(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInt64s(b.N)
+	b.StartTimer()
+	Asc(ints)
+}
+
+func BenchmarkDescInt64s(b *testing.B) {
+	b.StopTimer()
+	ints := benchmarkInt64s(b.N)
+	b.StartTimer()
+	Desc(ints)
+}
+
 func BenchmarkAscByInt64(b *testing.B) {
 	b.StopTimer()
 	is := benchmarkItems(b.N)
@@ -447,13 +467,6 @@ func BenchmarkAscPointersByInt64(b *testing.B) {
 	is := benchmarkPointers(b.N)
 	b.StartTimer()
 	AscByField(is, "Id")
-}
-
-func BenchmarkSortByTime(b *testing.B) {
-	b.StopTimer()
-	is := benchmarkItems(b.N)
-	b.StartTimer()
-	sort.Sort(ByDate{SortableItems(is)})
 }
 
 func BenchmarkAscByTime(b *testing.B) {
