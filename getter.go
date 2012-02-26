@@ -21,7 +21,7 @@ func SimpleGetter() Getter {
 	return func(s reflect.Value) []reflect.Value {
 		vals := valueSlice(s.Len())
 		for i := range vals {
-			vals[i] = reflect.Indirect(s.Index(i))
+			vals[i] = reflect.Indirect(reflect.Indirect(s.Index(i)))
 		}
 		return vals
 	}
@@ -36,7 +36,7 @@ func FieldGetter(name string) Getter {
 	return func(s reflect.Value) []reflect.Value {
 		vals := valueSlice(s.Len())
 		for i := range vals {
-			vals[i] = reflect.Indirect(s.Index(i).FieldByName(name))
+			vals[i] = reflect.Indirect(reflect.Indirect(s.Index(i)).FieldByName(name))
 		}
 		return vals
 	}
@@ -53,7 +53,7 @@ func FieldByIndexGetter(index []int) Getter {
 	return func(s reflect.Value) []reflect.Value {
 		vals := valueSlice(s.Len())
 		for i := range vals {
-			vals[i] = reflect.Indirect(s.Index(i).FieldByIndex(index))
+			vals[i] = reflect.Indirect(reflect.Indirect(s.Index(i)).FieldByIndex(index))
 		}
 		return vals
 	}
@@ -66,7 +66,7 @@ func IndexGetter(index int) Getter {
 	return func(s reflect.Value) []reflect.Value {
 		vals := valueSlice(s.Len())
 		for i := range vals {
-			vals[i] = reflect.Indirect(s.Index(i).Index(index))
+			vals[i] = reflect.Indirect(reflect.Indirect(s.Index(i)).Index(index))
 		}
 		return vals
 	}

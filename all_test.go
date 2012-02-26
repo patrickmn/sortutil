@@ -32,6 +32,20 @@ func (s SortableItems) Less(i, j int) bool {
 	return s[i].Id > s[j].Id
 }
 
+type SortablePointers []*Item
+
+func (s SortablePointers) Len() int {
+	return len(s)
+}
+
+func (s SortablePointers) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s SortablePointers) Less(i, j int) bool {
+	return s[i].Id > s[j].Id
+}
+
 func names() []string {
 	return []string{"A", "C", "a", "b", "d", "g", "h", "y", "z"}
 }
@@ -60,6 +74,23 @@ func items() []Item {
 	n := names()
 	d := dates()
 	is := []Item{
+		{6, n[4], d[0], true},
+		{1, n[3], d[5], true},
+		{9, n[1], d[6], true},
+		{3, n[8], d[2], false},
+		{7, n[7], d[8], true},
+		{2, n[2], d[4], false},
+		{8, n[0], d[1], false},
+		{5, n[5], d[7], false},
+		{4, n[6], d[3], true},
+	}
+	return is
+}
+
+func pointers() []*Item {
+	n := names()
+	d := dates()
+	is := []*Item{
 		{6, n[4], d[0], true},
 		{1, n[3], d[5], true},
 		{9, n[1], d[6], true},
@@ -220,6 +251,16 @@ func testStructs() []TestStruct {
 	}
 }
 
+func testPointers() []*TestStruct {
+	return []*TestStruct{
+		{
+			TimePtr:    &now,
+			Invalid:    InvalidType{"foo", 123},
+			unexported: 5,
+		},
+	}
+}
+
 func TestSortInvalidType(t *testing.T) {
 	// Sorting an invalid type should cause a panic
 	defer func() {
@@ -244,9 +285,21 @@ func TestSortUnexportedType(t *testing.T) {
 	AscByField(is, "unexported")
 }
 
-func TestSortPointerType(t *testing.T) {
-	// Sorting a pointer type shouldn't cause a panic
+func TestSortByPointer(t *testing.T) {
+	// Sorting by a pointer type shouldn't cause a panic
 	is := testStructs()
+	AscByField(is, "TimePtr")
+}
+
+func TestSortPointerSlice(t *testing.T) {
+	// Sorting a slice of pointers shouldn't cause a panic
+	is := pointers()
+	AscByField(is, "Id")
+}
+
+func TestSortPointerSliceByPointer(t *testing.T) {
+	// Sorting a slice of pointers by a pointer type shouldn't cause a panic
+	is := testPointers()
 	AscByField(is, "TimePtr")
 }
 
@@ -260,10 +313,23 @@ func TestReverse(t *testing.T) {
 }
 
 func BenchmarkSortByInt64(b *testing.B) {
+	var is []Item
+	b.StopTimer()
 	for i := 0; i < b.N; i++ {
-		is := items()
-		sort.Sort(SortableItems(is))
+		is = append(is, items()...)
 	}
+	b.StartTimer()
+	sort.Sort(SortableItems(is))
+}
+
+func BenchmarkSortPointersByInt64(b *testing.B) {
+	var is []*Item
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		is = append(is, pointers()...)
+	}
+	b.StartTimer()
+	sort.Sort(SortablePointers(is))
 }
 
 func BenchmarkSortReverseByInt64(b *testing.B) {
@@ -349,9 +415,31 @@ func benchmarkItems(l int) []Item {
 	return is
 }
 
+func benchmarkPointers(l int) []*Item {
+	is := make([]*Item, l, l)
+	n := names()
+	d := dates()
+	v := 0
+	for i := range is {
+		is[i] = &Item{int64(v), n[v], d[v], true}
+		v++
+		if v > 5 {
+			v = 0
+		}
+	}
+	return is
+}
+
 func BenchmarkAscByInt64(b *testing.B) {
 	b.StopTimer()
 	is := benchmarkItems(b.N)
+	b.StartTimer()
+	AscByField(is, "Id")
+}
+
+func BenchmarkAscPointersByInt64(b *testing.B) {
+	b.StopTimer()
+	is := benchmarkPointers(b.N)
 	b.StartTimer()
 	AscByField(is, "Id")
 }
