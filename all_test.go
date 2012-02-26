@@ -379,6 +379,12 @@ func benchmarkPointers(l int) []*Item {
 	return is
 }
 
+func previousGetter(vals []reflect.Value) Getter {
+	return func(v reflect.Value) []reflect.Value {
+		return vals
+	}
+}
+
 func BenchmarkSortByInt64(b *testing.B) {
 	var is []Item
 	b.StopTimer()
@@ -462,6 +468,18 @@ func BenchmarkAscByInt64(b *testing.B) {
 	AscByField(is, "Id")
 }
 
+func BenchmarkAscByInt64AfterSetup(b *testing.B) {
+	// Test how quick the above is after extracting all of the values to
+	// sort by from the struct.
+	b.StopTimer()
+	is := benchmarkItems(b.N)
+	v := reflect.ValueOf(is)
+	g := FieldGetter("Id")
+	vals := g(v)
+	b.StartTimer()
+	New(is, previousGetter(vals), Ascending).Sort()
+}
+
 func BenchmarkAscPointersByInt64(b *testing.B) {
 	b.StopTimer()
 	is := benchmarkPointers(b.N)
@@ -475,6 +493,19 @@ func BenchmarkAscByTime(b *testing.B) {
 	b.StartTimer()
 	AscByField(is, "Date")
 }
+
+func BenchmarkAscByTimeAfterSetup(b *testing.B) {
+	// Test how quick the above is after extracting all of the values to
+	// sort by from the struct.
+	b.StopTimer()
+	is := benchmarkItems(b.N)
+	v := reflect.ValueOf(is)
+	g := FieldGetter("Date")
+	vals := g(v)
+	b.StartTimer()
+	New(is, previousGetter(vals), Ascending).Sort()
+}
+
 
 func BenchmarkAscPointersByTime(b *testing.B) {
 	b.StopTimer()
