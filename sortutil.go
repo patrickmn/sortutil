@@ -142,8 +142,6 @@ func (s *Sorter) Len() int {
 
 // Swaps two indices in the slice being sorted.
 func (s *Sorter) Swap(i, j int) {
-	// Updating the structs causes s.vals[i], s.vals[j] to (essentially) be swapped, too.
-	// TODO: This is inefficient; update with future(?) reflect.Swap/reflect.SetIndex
 	tmp := reflect.New(s.T).Elem()
 	tmp.Set(s.V.Index(i))
 	s.V.Index(i).Set(s.V.Index(j))
@@ -167,8 +165,6 @@ type timeAscending struct{ *Sorter }
 type timeDescending struct{ *Sorter }
 type reverser struct{ *Sorter }
 
-// TODO: Can probably improve performance significantly by making a slice for
-// each possible type, and not calling the String/Int/etc. methods so much.
 func (s stringAscending) Less(i, j int) bool {
 	return s.Sorter.vals[i].String() < s.Sorter.vals[j].String()
 }
