@@ -32,7 +32,7 @@ func (s SortableItems) Less(i, j int) bool {
 	return s[i].Id > s[j].Id
 }
 
-type ByDate struct { SortableItems }
+type ByDate struct{ SortableItems }
 
 func (s ByDate) Less(i, j int) bool {
 	return s.SortableItems[i].Date.Before(s.SortableItems[i].Date)
@@ -52,7 +52,7 @@ func (s SortablePointers) Less(i, j int) bool {
 	return s[i].Id > s[j].Id
 }
 
-type PointersByDate struct { SortablePointers }
+type PointersByDate struct{ SortablePointers }
 
 func (s PointersByDate) Less(i, j int) bool {
 	return s.SortablePointers[i].Date.Before(s.SortablePointers[i].Date)
@@ -529,7 +529,6 @@ func BenchmarkAscByTimeAfterSetup(b *testing.B) {
 	b.StartTimer()
 	New(is, previousGetter(vals), Ascending).Sort()
 }
-
 
 func BenchmarkAscPointersByTime(b *testing.B) {
 	b.StopTimer()
