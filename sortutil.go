@@ -41,8 +41,6 @@ var (
 //   T: The slice type
 //   V: The slice
 //   G: The Getter function
-//   vals: a slice of the values to sort by, e.g. []string for a "Name" field
-//   valType: type of the value sorted by, e.g. string
 type Sorter struct {
 	T        reflect.Type
 	V        reflect.Value
@@ -137,12 +135,12 @@ func (s *Sorter) Sort() {
 	}
 }
 
-// Returns the length of the slice being sorted
+// Returns the length of the slice being sorted.
 func (s *Sorter) Len() int {
 	return len(s.vals)
 }
 
-// Swaps two indices in the slice being sorted
+// Swaps two indices in the slice being sorted.
 func (s *Sorter) Swap(i, j int) {
 	// Updating the structs causes s.vals[i], s.vals[j] to (essentially) be swapped, too.
 	// TODO: This is inefficient; update with future(?) reflect.Swap/reflect.SetIndex
