@@ -170,7 +170,7 @@ func TestSortByIntIndexAscending(t *testing.T) {
 func TestSortIntArray(t *testing.T) {
 	return // TEMP: Disabled
 	ints := [...]int{4, 3, 1, 5, 2}
-	Sort(ints, nil, Ascending)
+	Asc(ints)
 	if !sort.IntsAreSorted(ints[:]) {
 		t.Errorf("Array ints weren't sorted: %v", ints)
 	}
