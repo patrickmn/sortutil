@@ -32,6 +32,12 @@ func (s SortableItems) Less(i, j int) bool {
 	return s[i].Id > s[j].Id
 }
 
+type ByDate struct { SortableItems }
+
+func (s ByDate) Less(i, j int) bool {
+	return s.SortableItems[i].Date.Before(s.SortableItems[i].Date)
+}
+
 type SortablePointers []*Item
 
 func (s SortablePointers) Len() int {
@@ -198,14 +204,13 @@ func TestSortByIntIndexAscending(t *testing.T) {
 	}
 }
 
-func TestSortIntArray(t *testing.T) {
-	return // TEMP: Disabled
-	ints := [...]int{4, 3, 1, 5, 2}
-	Asc(ints)
-	if !sort.IntsAreSorted(ints[:]) {
-		t.Errorf("Array ints weren't sorted: %v", ints)
-	}
-}
+// func TestSortIntArray(t *testing.T) {
+// 	ints := [...]int{4, 3, 1, 5, 2}
+// 	Asc(ints)
+// 	if !sort.IntsAreSorted(ints[:]) {
+// 		t.Errorf("Array ints weren't sorted: %v", ints)
+// 	}
+// }
 
 func TestSortByTimeFieldAscending(t *testing.T) {
 	is := items()
@@ -442,4 +447,25 @@ func BenchmarkAscPointersByInt64(b *testing.B) {
 	is := benchmarkPointers(b.N)
 	b.StartTimer()
 	AscByField(is, "Id")
+}
+
+func BenchmarkSortByTime(b *testing.B) {
+	b.StopTimer()
+	is := benchmarkItems(b.N)
+	b.StartTimer()
+	sort.Sort(ByDate{SortableItems(is)})
+}
+
+func BenchmarkAscByTime(b *testing.B) {
+	b.StopTimer()
+	is := benchmarkItems(b.N)
+	b.StartTimer()
+	AscByField(is, "Date")
+}
+
+func BenchmarkAscPointersByTime(b *testing.B) {
+	b.StopTimer()
+	is := benchmarkPointers(b.N)
+	b.StartTimer()
+	AscByField(is, "Date")
 }
