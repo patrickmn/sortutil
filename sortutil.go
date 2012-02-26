@@ -37,7 +37,7 @@ var (
 	t_time = reflect.TypeOf(time.Time{})
 )
 
-// A "universal" sort.Interface adapter.
+// A reflecting sort.Interface adapter.
 //   T: The slice type
 //   V: The slice
 //   G: The Getter function
