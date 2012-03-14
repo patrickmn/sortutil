@@ -162,8 +162,8 @@ sortutil.AscByIndex(ints, 2)
 
 == Performance
 While sortutil is convenient, it won't beat a dedicated sort.Interface in
-terms of performance. Implementing sort.Interface for a struct ByName which
-embeds the main struct and doing sort.Sort(ByName{MyStruct}) should be
+terms of performance. Implementing sort.Interface for a type ByName which
+embeds e.g. []MyStruct and doing sort.Sort(ByName{MySlice}) should be
 considered when high performance is required.
 
 See the top of sortutil/all_test.go, go/src/pkg/sort/example_interface_test.go,
