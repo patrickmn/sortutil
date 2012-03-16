@@ -38,15 +38,12 @@ var (
 )
 
 // A reflecting sort.Interface adapter.
-//   T: The slice type
-//   V: The slice
-//   G: The Getter function
 type Sorter struct {
-	T        reflect.Type
-	V        reflect.Value
-	G        Getter
+	Slice    reflect.Value
+	Getter   Getter
 	Ordering Ordering
-	vals     []reflect.Value
+	itemType reflect.Type    // Type of items being sorted
+	vals     []reflect.Value // Nested/child values that we're sorting by
 	valKind  reflect.Kind
 	valType  reflect.Type
 }
@@ -55,10 +52,15 @@ type Sorter struct {
 // runtime panic will occur if G is not applicable to V, or if the values
 // retrieved by G can't be compared.
 func (s *Sorter) Sort() {
-	if s.G == nil {
-		s.G = SimpleGetter()
+	if s.Slice.Len() == 0 {
+		// Empty slice; nothing to sort
+		return
 	}
-	s.vals = s.G(s.V)
+	if s.Getter == nil {
+		s.Getter = SimpleGetter()
+	}
+	s.itemType = s.Slice.Index(0).Type()
+	s.vals = s.Getter(s.Slice)
 	one := s.vals[0]
 	s.valType = one.Type()
 	s.valKind = one.Kind()
@@ -142,10 +144,10 @@ func (s *Sorter) Len() int {
 
 // Swaps two indices in the slice being sorted.
 func (s *Sorter) Swap(i, j int) {
-	tmp := reflect.New(s.T).Elem()
-	tmp.Set(s.V.Index(i))
-	s.V.Index(i).Set(s.V.Index(j))
-	s.V.Index(j).Set(tmp)
+	tmp := reflect.New(s.itemType).Elem()
+	tmp.Set(s.Slice.Index(i))
+	s.Slice.Index(i).Set(s.Slice.Index(j))
+	s.Slice.Index(j).Set(tmp)
 }
 
 // *cough* typedef *cough*
@@ -214,7 +216,7 @@ func (s timeDescending) Less(i, j int) bool {
 }
 
 func (s reverser) Len() int {
-	return s.Sorter.V.Len()
+	return s.Sorter.Slice.Len()
 }
 
 // Unused--only to satisfy sort.Interface
@@ -227,9 +229,8 @@ func (s reverser) Less(i, j int) bool {
 func New(slice interface{}, getter Getter, ordering Ordering) *Sorter {
 	v := reflect.ValueOf(slice)
 	return &Sorter{
-		T:        v.Index(0).Type(),
-		V:        v,
-		G:        getter,
+		Slice:    v,
+		Getter:   getter,
 		Ordering: ordering,
 	}
 }
@@ -340,8 +341,12 @@ func CiDescByIndex(slice interface{}, index int) {
 
 // Reverse a slice.
 func Reverse(slice interface{}) {
-	s := New(slice, nil, 0)
-	ReverseInterface(reverser{s})
+	s := reverser{New(slice, nil, 0)}
+	if s.Len() == 0 {
+		return
+	}
+	s.itemType = s.Slice.Index(0).Type()
+	ReverseInterface(s)
 }
 
 // Reverse a type which implements sort.Interface.

@@ -314,6 +314,12 @@ func TestSortPointerSliceByPointer(t *testing.T) {
 	AscByField(is, "TimePtr")
 }
 
+func TestSortEmptySlice(t *testing.T) {
+	// Sorting an empty slice shouldn't cause a panic
+	is := []Item{}
+	AscByField(is, "Date")
+}
+
 func TestReverse(t *testing.T) {
 	ints := []int{4, 2, 6, 4, 8}
 	correct := []int{8, 4, 6, 2, 4}
