@@ -144,10 +144,12 @@ func (s *Sorter) Len() int {
 
 // Swaps two indices in the slice being sorted.
 func (s *Sorter) Swap(i, j int) {
+	x := s.Slice.Index(i)
+	y := s.Slice.Index(j)
 	tmp := reflect.New(s.itemType).Elem()
-	tmp.Set(s.Slice.Index(i))
-	s.Slice.Index(i).Set(s.Slice.Index(j))
-	s.Slice.Index(j).Set(tmp)
+	tmp.Set(x)
+	x.Set(y)
+	y.Set(tmp)
 }
 
 // *cough* typedef *cough*
