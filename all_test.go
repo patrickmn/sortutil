@@ -125,7 +125,7 @@ func nestedIntSlice() [][]int {
 	}
 }
 
-func TestSortReverseInterface(t *testing.T) {
+func TestReverseInterface(t *testing.T) {
 	is := items()
 	SortReverseInterface(SortableItems(is))
 	for i, v := range is {
@@ -135,7 +135,7 @@ func TestSortReverseInterface(t *testing.T) {
 	}
 }
 
-func TestSortByStringFieldAscending(t *testing.T) {
+func TestAscByFieldString(t *testing.T) {
 	is := items()
 	AscByField(is, "Name")
 	c := names()
@@ -146,7 +146,7 @@ func TestSortByStringFieldAscending(t *testing.T) {
 	}
 }
 
-func TestSortByStringFieldDescending(t *testing.T) {
+func TestDescByFieldString(t *testing.T) {
 	is := items()
 	DescByField(is, "Name")
 	c := names()
@@ -158,7 +158,7 @@ func TestSortByStringFieldDescending(t *testing.T) {
 	}
 }
 
-func TestSortByStringFieldCaseInsensitiveAscending(t *testing.T) {
+func TestCiAscByFieldString(t *testing.T) {
 	is := items()
 	CiAscByField(is, "Name")
 	c := namesInsensitive()
@@ -169,7 +169,7 @@ func TestSortByStringFieldCaseInsensitiveAscending(t *testing.T) {
 	}
 }
 
-func TestSortByStringFieldCaseInsensitiveDescending(t *testing.T) {
+func TestCiDescByFieldString(t *testing.T) {
 	is := items()
 	CiDescByField(is, "Name")
 	c := namesInsensitive()
@@ -181,7 +181,7 @@ func TestSortByStringFieldCaseInsensitiveDescending(t *testing.T) {
 	}
 }
 
-func TestSortByInt64FieldAscending(t *testing.T) {
+func TestAscByFieldInt64(t *testing.T) {
 	is := items()
 	AscByField(is, "Id")
 	for i, v := range is {
@@ -191,7 +191,7 @@ func TestSortByInt64FieldAscending(t *testing.T) {
 	}
 }
 
-func TestSortByInt64FieldDescending(t *testing.T) {
+func TestDescByFieldInt64(t *testing.T) {
 	is := items()
 	DescByField(is, "Id")
 	l := len(is)
@@ -202,7 +202,7 @@ func TestSortByInt64FieldDescending(t *testing.T) {
 	}
 }
 
-func TestSortByIntIndexAscending(t *testing.T) {
+func TestAscByIndex(t *testing.T) {
 	is := nestedIntSlice()
 	AscByIndex(is, 2)
 	if !sort.IntsAreSorted([]int{is[0][2], is[1][2], is[2][2], is[3][2]}) {
@@ -210,7 +210,7 @@ func TestSortByIntIndexAscending(t *testing.T) {
 	}
 }
 
-// func TestSortIntArray(t *testing.T) {
+// func TestAscIntArray(t *testing.T) {
 // 	ints := [...]int{4, 3, 1, 5, 2}
 // 	Asc(ints)
 // 	if !sort.IntsAreSorted(ints[:]) {
@@ -218,7 +218,7 @@ func TestSortByIntIndexAscending(t *testing.T) {
 // 	}
 // }
 
-func TestSortByTimeFieldAscending(t *testing.T) {
+func TestAscByFieldTime(t *testing.T) {
 	is := items()
 	AscByField(is, "Date")
 	c := dates()
@@ -229,7 +229,7 @@ func TestSortByTimeFieldAscending(t *testing.T) {
 	}
 }
 
-func TestSortByTimeFieldDescending(t *testing.T) {
+func TestDescByFieldTime(t *testing.T) {
 	is := items()
 	DescByField(is, "Date")
 	c := dates()
@@ -272,18 +272,18 @@ func testPointers() []*TestStruct {
 	}
 }
 
-func TestSortInvalidType(t *testing.T) {
-	// Sorting an invalid type should cause a panic
+func TestAscByFieldInvalidType(t *testing.T) {
+	// Sorting by an invalid type should cause a panic
 	defer func() {
 		if x := recover(); x == nil {
-			t.Fatal("Sorting an unrecognized type didn't cause a panic")
+			t.Fatal("Sorting by an unrecognized type didn't cause a panic")
 		}
 	}()
 	is := testStructs()
 	AscByField(is, "Invalid")
 }
 
-func TestSortUnexportedType(t *testing.T) {
+func TestAscByFieldUnexportedType(t *testing.T) {
 	// Sorting an unexported type should cause a panic
 	// TODO: This should test on a field outside the package
 	return // TEMP
@@ -296,25 +296,25 @@ func TestSortUnexportedType(t *testing.T) {
 	AscByField(is, "unexported")
 }
 
-func TestSortByPointer(t *testing.T) {
+func TestAscByFieldPointer(t *testing.T) {
 	// Sorting by a pointer type shouldn't cause a panic
 	is := testStructs()
 	AscByField(is, "TimePtr")
 }
 
-func TestSortPointerSlice(t *testing.T) {
+func TestPointerSliceAscByFieldInt64(t *testing.T) {
 	// Sorting a slice of pointers shouldn't cause a panic
 	is := pointers()
 	AscByField(is, "Id")
 }
 
-func TestSortPointerSliceByPointer(t *testing.T) {
+func TestPointerSliceAscByFieldPointer(t *testing.T) {
 	// Sorting a slice of pointers by a pointer type shouldn't cause a panic
 	is := testPointers()
 	AscByField(is, "TimePtr")
 }
 
-func TestSortEmptySlice(t *testing.T) {
+func TestAscEmptySlice(t *testing.T) {
 	// Sorting an empty slice shouldn't cause a panic
 	is := []Item{}
 	Asc(is)
@@ -397,7 +397,7 @@ func previousGetter(vals []reflect.Value) Getter {
 	}
 }
 
-func BenchmarkSortByInt64(b *testing.B) {
+func BenchmarkNormalSortByInt64(b *testing.B) {
 	var is []Item
 	b.StopTimer()
 	for i := 0; i < b.N; i++ {
@@ -407,7 +407,7 @@ func BenchmarkSortByInt64(b *testing.B) {
 	sort.Sort(SortableItems(is))
 }
 
-func BenchmarkSortPointersByInt64(b *testing.B) {
+func BenchmarkNormalSortPointersByInt64(b *testing.B) {
 	var is []*Item
 	b.StopTimer()
 	for i := 0; i < b.N; i++ {
@@ -417,28 +417,28 @@ func BenchmarkSortPointersByInt64(b *testing.B) {
 	sort.Sort(SortablePointers(is))
 }
 
-func BenchmarkSortReverseByInt64(b *testing.B) {
+func BenchmarkNormalSortReverseByInt64(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		is := items()
 		SortReverseInterface(SortableItems(is))
 	}
 }
 
-func BenchmarkSortInts(b *testing.B) {
+func BenchmarkNormalSortInts(b *testing.B) {
 	b.StopTimer()
 	ints := benchmarkInts(b.N)
 	b.StartTimer()
 	sort.Sort(sort.IntSlice(ints))
 }
 
-func BenchmarkSortByTime(b *testing.B) {
+func BenchmarkNormalSortByTime(b *testing.B) {
 	b.StopTimer()
 	is := benchmarkItems(b.N)
 	b.StartTimer()
 	sort.Sort(ByDate{SortableItems(is)})
 }
 
-func BenchmarkSortPointersByTime(b *testing.B) {
+func BenchmarkNormalSortPointersByTime(b *testing.B) {
 	b.StopTimer()
 	is := benchmarkPointers(b.N)
 	b.StartTimer()
