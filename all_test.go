@@ -261,8 +261,8 @@ func testStructs() []TestStruct {
 		},
 		{
 			TimePtr:    &now,
-			Invalid:    InvalidType{"foo", 123},
-			unexported: 5,
+			Invalid:    InvalidType{"bar", 456},
+			unexported: 6,
 		},
 	}
 }
@@ -276,8 +276,8 @@ func testPointers() []*TestStruct {
 		},
 		{
 			TimePtr:    &now,
-			Invalid:    InvalidType{"foo", 123},
-			unexported: 5,
+			Invalid:    InvalidType{"bar", 456},
+			unexported: 6,
 		},
 	}
 }
