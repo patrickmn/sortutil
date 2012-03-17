@@ -317,7 +317,7 @@ func TestSortPointerSliceByPointer(t *testing.T) {
 func TestSortEmptySlice(t *testing.T) {
 	// Sorting an empty slice shouldn't cause a panic
 	is := []Item{}
-	AscByField(is, "Date")
+	Asc(is)
 }
 
 func TestReverse(t *testing.T) {
@@ -327,6 +327,12 @@ func TestReverse(t *testing.T) {
 	if !reflect.DeepEqual(ints, correct) {
 		t.Errorf("Reversed slice was not %v: %v", correct, ints)
 	}
+}
+
+func TestReverseEmptySlice(t *testing.T) {
+	// Reversing an empty slice shouldn't cause a panic
+	is := []Item{}
+	Reverse(is)
 }
 
 func benchmarkInts(n int) []int {
