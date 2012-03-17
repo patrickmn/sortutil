@@ -259,11 +259,21 @@ func testStructs() []TestStruct {
 			Invalid:    InvalidType{"foo", 123},
 			unexported: 5,
 		},
+		{
+			TimePtr:    &now,
+			Invalid:    InvalidType{"foo", 123},
+			unexported: 5,
+		},
 	}
 }
 
 func testPointers() []*TestStruct {
 	return []*TestStruct{
+		{
+			TimePtr:    &now,
+			Invalid:    InvalidType{"foo", 123},
+			unexported: 5,
+		},
 		{
 			TimePtr:    &now,
 			Invalid:    InvalidType{"foo", 123},

@@ -52,8 +52,8 @@ type Sorter struct {
 // runtime panic will occur if G is not applicable to V, or if the values
 // retrieved by G can't be compared.
 func (s *Sorter) Sort() {
-	if s.Slice.Len() == 0 {
-		// Empty slice; nothing to sort
+	if s.Slice.Len() < 2 {
+		// Nothing to sort
 		return
 	}
 	if s.Getter == nil {
@@ -344,7 +344,7 @@ func CiDescByIndex(slice interface{}, index int) {
 // Reverse a slice.
 func Reverse(slice interface{}) {
 	s := reverser{New(slice, nil, 0)}
-	if s.Len() == 0 {
+	if s.Len() < 2 {
 		return
 	}
 	s.itemType = s.Slice.Index(0).Type()
