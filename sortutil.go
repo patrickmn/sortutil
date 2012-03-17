@@ -48,9 +48,10 @@ type Sorter struct {
 	valType  reflect.Type
 }
 
-// Sort the values in V by retrieving comparison items using G(V). A
-// runtime panic will occur if G is not applicable to V, or if the values
-// retrieved by G can't be compared.
+// Sort the values in s.Slice by retrieving comparison items using
+// s.Getter(s.Slice). A runtime panic will occur if s.Getter is not applicable
+// to s.Slice, or if the values retrieved by s.Getter can't be compared, i.e.
+// are unrecognized types.
 func (s *Sorter) Sort() {
 	if s.Slice.Len() < 2 {
 		// Nothing to sort
