@@ -12,7 +12,7 @@ go get github.com/pmylund/sortutil
 
 == Documentation
 go doc github.com/pmylund/sortutil
-or http://gopkgdoc.appspot.com/pkg/github.com/pmylund/sortutil
+or http://go.pkgdoc.org/github.com/pmylund/sortutil
 
 == Functions
 func Asc(slice interface{})
